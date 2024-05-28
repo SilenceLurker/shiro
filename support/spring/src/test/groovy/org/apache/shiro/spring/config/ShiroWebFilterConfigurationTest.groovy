@@ -20,6 +20,7 @@ package org.apache.shiro.spring.config
 
 import org.apache.shiro.mgt.SecurityManager
 import org.apache.shiro.spring.testconfig.RealmTestConfiguration
+import org.apache.shiro.spring.web.ShiroFilterBeanManager
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean
 import org.apache.shiro.spring.web.config.DefaultShiroFilterChainDefinition
 import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition
@@ -43,9 +44,12 @@ import javax.servlet.ServletException
 import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 
-import static org.hamcrest.Matchers.contains
-import static org.hamcrest.Matchers.instanceOf
-import static org.hamcrest.Matchers.notNullValue
+// import static org.hamcrest.Matchers.contains
+// import static org.hamcrest.Matchers.instanceOf
+// import static org.hamcrest.Matchers.notNullValue
+import static org.hamcrest.MatcherAssert.assertThat
+import static org.hamcrest.Matchers.*
+import static org.junit.jupiter.api.Assertions.*
 import static org.hamcrest.MatcherAssert.assertThat
 
 /**
@@ -69,7 +73,10 @@ class ShiroWebFilterConfigurationTest extends AbstractJUnit4SpringContextTests {
 
         // create the filter chain manager
         FilterChainManager filterChainManager = shiroFilterFactoryBean.createFilterChainManager()
+
+        assertNull filterChainManager.filterChains
         // lookup the chain by name
+        // assertThat filterChainManager.getChain("/test-me"), contains(instanceOf(InvalidRequestFilter), instanceOf(ExpectedTestFilter))
         assertThat filterChainManager.getChain("/test-me"), contains(instanceOf(InvalidRequestFilter), instanceOf(ExpectedTestFilter))
     }
 

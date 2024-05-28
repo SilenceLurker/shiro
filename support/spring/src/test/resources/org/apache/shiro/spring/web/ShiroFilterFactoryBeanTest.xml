@@ -34,22 +34,31 @@
 
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!-- Single realm app.  If you have multiple realms, use the 'realms' property instead. -->
-        <property name="realm" ref="iniRealm"/>
-        <property name="sessionMode" value="native"/>
+        <property name="realm" ref="iniRealm" />
+        <property name="sessionMode" value="native" />
     </bean>
 
     <!-- Just defining this will make it available to the 'filterChainDefinitions' property
          in the shiroFilter below by the bean id: -->
-    <bean id="testFilter" class="org.apache.shiro.spring.web.DummyFilter"/>
+    <bean id="testFilter" class="org.apache.shiro.spring.web.DummyFilter" />
 
-    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
-        <property name="securityManager" ref="securityManager"/>
-        <property name="filterChainDefinitions">
-            <value>
-                /test = testFilter, authc
-            </value>
+    <bean id="shiroFilterBeanManager" class="org.apache.shiro.spring.web.ShiroFilterBeanManager">
+        <property name="securityManager" ref="securityManager" />
+        <property name="filterChainDefinitionMap">
+            <map>
+                <entry key="/test" value="testFilter, authc" />
+            </map>
         </property>
+    </bean>
 
+    <bean id="shiroFilterBeanPostProcessor"
+        class="org.apache.shiro.spring.web.ShiroFilterBeanPostProcessor">
+        <property name="manager" ref="shiroFilterBeanManager"></property>
+    </bean>
+
+    <!-- <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"> -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="manager" ref="shiroFilterBeanManager" />
     </bean>
 
 </beans>

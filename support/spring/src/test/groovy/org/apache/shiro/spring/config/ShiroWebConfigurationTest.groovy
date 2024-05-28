@@ -66,7 +66,7 @@ class ShiroWebConfigurationTest extends AbstractJUnit4SpringContextTests {
         assertNull securityManager.cacheManager
 
         assertNotNull shiroFilterFactoryBean
-        assertThat shiroFilterFactoryBean.filters, anEmptyMap()
+        assertThat shiroFilterFactoryBean.manager.filters, anEmptyMap()
 
         assertSame(((DefaultSecurityManager)securityManager).getEventBus(), eventBus)
 

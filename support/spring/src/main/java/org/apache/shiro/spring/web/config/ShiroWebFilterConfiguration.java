@@ -18,6 +18,8 @@
  */
 package org.apache.shiro.spring.web.config;
 
+import org.apache.shiro.spring.web.ShiroFilterBeanManager;
+import org.apache.shiro.spring.web.ShiroFilterBeanPostProcessor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -36,8 +38,18 @@ public class ShiroWebFilterConfiguration extends AbstractShiroWebFilterConfigura
         return super.shiroFilterFactoryBean();
     }
 
+    @Bean
+    protected ShiroFilterBeanPostProcessor shiroFilterBeanPostProcessor() {
+        return new ShiroFilterBeanPostProcessor();
+    }
+
     @Bean(name = "globalFilters")
     protected List<String> globalFilters() {
         return super.globalFilters();
+    }
+
+    @Bean
+    protected ShiroFilterBeanManager manager() {
+        return new ShiroFilterBeanManager();
     }
 }

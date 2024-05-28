@@ -27,6 +27,7 @@ import org.apache.shiro.mgt.SecurityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.aop.support.StaticMethodMatcherPointcutAdvisor;
+import org.springframework.core.PriorityOrdered;
 import org.springframework.core.annotation.AnnotationUtils;
 
 import java.lang.annotation.Annotation;
@@ -37,8 +38,8 @@ import java.lang.reflect.Method;
  *
  * @since 0.1
  */
-@SuppressWarnings({"unchecked"})
-public class AuthorizationAttributeSourceAdvisor extends StaticMethodMatcherPointcutAdvisor {
+@SuppressWarnings({ "unchecked" })
+public class AuthorizationAttributeSourceAdvisor extends StaticMethodMatcherPointcutAdvisor implements PriorityOrdered {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AuthorizationAttributeSourceAdvisor.class);
 

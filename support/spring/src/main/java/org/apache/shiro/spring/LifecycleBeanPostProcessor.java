@@ -79,6 +79,7 @@ public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProce
      * @return the initialized bean.
      * @throws BeansException if any exception is thrown during initialization.
      */
+    @Override
     public Object postProcessBeforeInitialization(Object object, String name) throws BeansException {
         if (object instanceof Initializable) {
             try {
@@ -98,6 +99,7 @@ public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProce
     /**
      * Does nothing - merely returns the object argument immediately.
      */
+    @Override
     public Object postProcessAfterInitialization(Object object, String name) throws BeansException {
         // Does nothing after initialization
         return object;
