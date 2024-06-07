@@ -44,6 +44,7 @@ target/
 # VS Code
 #
 .factorypath
+.vscode/
 
 #
 # Maven release metadata

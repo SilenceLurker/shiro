@@ -29,23 +29,22 @@ import org.aspectj.lang.annotation.Pointcut;
 @Aspect()
 public class ShiroAnnotationAuthorizingAspect {
 
-    private static final String pointCupExpression =
-            "execution(@org.apache.shiro.authz.annotation.RequiresAuthentication * *(..)) || " +
-                    "execution(@org.apache.shiro.authz.annotation.RequiresGuest * *(..)) || " +
-                    "execution(@org.apache.shiro.authz.annotation.RequiresPermissions * *(..)) || " +
-                    "execution(@org.apache.shiro.authz.annotation.RequiresRoles * *(..)) || " +
-                    "execution(@org.apache.shiro.authz.annotation.RequiresUser * *(..))";
+    private static final String POINT_CUP_EXPRESSION =
+        "execution(@org.apache.shiro.authz.annotation.RequiresAuthentication * *(..)) || "
+            + "execution(@org.apache.shiro.authz.annotation.RequiresGuest * *(..)) || "
+            + "execution(@org.apache.shiro.authz.annotation.RequiresPermissions * *(..)) || "
+            + "execution(@org.apache.shiro.authz.annotation.RequiresRoles * *(..)) || "
+            + "execution(@org.apache.shiro.authz.annotation.RequiresUser * *(..))";
 
-    @Pointcut(pointCupExpression)
+    private AspectjAnnotationsAuthorizingMethodInterceptor interceptor = new AspectjAnnotationsAuthorizingMethodInterceptor();
+
+    @Pointcut(POINT_CUP_EXPRESSION)
     public void anyShiroAnnotatedMethod() {
     }
 
-    @Pointcut(pointCupExpression)
+    @Pointcut(POINT_CUP_EXPRESSION)
     void anyShiroAnnotatedMethodCall(JoinPoint thisJoinPoint) {
     }
-
-    private AspectjAnnotationsAuthorizingMethodInterceptor interceptor =
-            new AspectjAnnotationsAuthorizingMethodInterceptor();
 
     @Before("anyShiroAnnotatedMethodCall(thisJoinPoint)")
     public void executeAnnotatedMethod(JoinPoint thisJoinPoint) throws Throwable {
