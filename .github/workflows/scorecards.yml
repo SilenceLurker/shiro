@@ -39,15 +39,15 @@ jobs:
       # Needs for private repositories.
       contents: read
       actions: read
-    
+
     steps:
       - name: "Checkout code"
-        uses: actions/checkout@a5ac7e51b41094c92402da3b24376905380afc29 # tag=v3.0.0
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # tag=v3.0.0
         with:
           persist-credentials: false
 
       - name: "Run analysis"
-        uses: ossf/scorecard-action@dc50aa9510b46c811795eb24b2f1ba02a914e534 #tag=2.3.3
+        uses: ossf/scorecard-action@05b42c624433fc40578a4040d5cf5e36ddca8cde #tag=2.4.2
         with:
           results_file: results.sarif
           results_format: sarif
@@ -58,22 +58,22 @@ jobs:
           # repo_token: ${{ secrets.SCORECARD_READ_TOKEN }}
 
           # Publish the results for public repositories to enable scorecard badges. For more details, see
-          # https://github.com/ossf/scorecard-action#publishing-results. 
-          # For private repositories, `publish_results` will automatically be set to `false`, regardless 
+          # https://github.com/ossf/scorecard-action#publishing-results.
+          # For private repositories, `publish_results` will automatically be set to `false`, regardless
           # of the value entered here.
           publish_results: true
 
       # Upload the results as artifacts (optional). Commenting out will disable uploads of run results in SARIF
       # format to the repository Actions tab.
       - name: "Upload artifact"
-        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808 # tag=v4.3.3
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # tag=v4.6.2
         with:
           name: SARIF file
           path: results.sarif
           retention-days: 5
-      
+
       # Upload the results to GitHub's code scanning dashboard.
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@2e230e8fe0ad3a14a340ad0815ddb96d599d2aff #tag=v2
+        uses: github/codeql-action/upload-sarif@181d5eefc20863364f96762470ba6f862bdef56b #tag=v2
         with:
           sarif_file: results.sarif
