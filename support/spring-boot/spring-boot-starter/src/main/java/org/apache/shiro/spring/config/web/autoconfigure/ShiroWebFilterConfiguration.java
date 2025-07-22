@@ -18,6 +18,7 @@
  */
 package org.apache.shiro.spring.config.web.autoconfigure;
 
+import org.apache.shiro.spring.web.ShiroFilterBeanManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.spring.web.config.AbstractShiroWebFilterConfiguration;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
@@ -27,6 +28,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplicat
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.DispatcherType;
 import java.util.List;
@@ -55,6 +57,7 @@ public class ShiroWebFilterConfiguration extends AbstractShiroWebFilterConfigura
         return super.shiroFilterFactoryBean();
     }
 
+    @DependsOn("securityManager")
     @Bean(name = REGISTRATION_BEAN_NAME)
     @ConditionalOnMissingBean(name = REGISTRATION_BEAN_NAME)
     protected FilterRegistrationBean<AbstractShiroFilter> filterShiroFilterRegistrationBean() throws Exception {
@@ -74,4 +77,12 @@ public class ShiroWebFilterConfiguration extends AbstractShiroWebFilterConfigura
     protected List<String> globalFilters() {
         return super.globalFilters();
     }
+
+    @Bean
+    @Override
+    @ConditionalOnMissingBean
+    protected ShiroFilterBeanManager manager() {
+        return super.manager();
+    }
+
 }

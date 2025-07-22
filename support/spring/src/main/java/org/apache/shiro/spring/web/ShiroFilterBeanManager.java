@@ -27,6 +27,7 @@ import org.apache.shiro.web.filter.authz.AuthorizationFilter;
 import org.apache.shiro.web.filter.mgt.DefaultFilter;
 import org.apache.shiro.web.filter.mgt.FilterChainManager;
 import org.apache.shiro.web.servlet.AbstractShiroFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.Filter;
 
@@ -43,6 +44,7 @@ public class ShiroFilterBeanManager {
 
     private Map<String, Filter> filters;
 
+    @Autowired(required = false)
     private List<String> globalFilters;
 
     // urlPathExpression_to_comma-delimited-filter-chain-definition

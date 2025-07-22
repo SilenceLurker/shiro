@@ -42,17 +42,19 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.context.annotation.DependsOn;
 
 import javax.servlet.Filter;
 import java.util.List;
 import java.util.Map;
 
 /**
- * {@link org.springframework.beans.factory.FactoryBean FactoryBean} to be used in Spring-based web applications for
+ * {@link org.springframework.beans.factory.FactoryBean FactoryBean} to be used
+ * in Spring-based web applications for
  * defining the master Shiro Filter.
  * <h4>Usage</h4>
- * Declare a DelegatingFilterProxy in {@code web.xml}, matching the filter name to the bean id:
+ * Declare a DelegatingFilterProxy in {@code web.xml}, matching the filter name
+ * to the bean id:
+ *
  * <pre>
  * &lt;filter&gt;
  *   &lt;filter-name&gt;<b>shiroFilter</b>&lt;/filter-name&gt;
@@ -63,21 +65,28 @@ import java.util.Map;
  *   &lt;/init-param&gt;
  * &lt;/filter&gt;
  * </pre>
+ *
  * Then, in your spring XML file that defines your web ApplicationContext:
+ *
  * <pre>
  * &lt;bean id="<b>shiroFilter</b>" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean"&gt;
  *    &lt;property name="securityManager" ref="securityManager"/&gt;
  *    &lt;!-- other properties as necessary ... --&gt;
  * &lt;/bean&gt;
  * </pre>
+ *
  * <h4>Filter Auto-Discovery</h4>
- * While there is a {@link #setFilters(java.util.Map) filters} property that allows you to assign a filter beans
- * to the 'pool' of filters available when defining {@link #setFilterChainDefinitions(String) filter chains}, it is
+ * While there is a {@link #setFilters(java.util.Map) filters} property that
+ * allows you to assign a filter beans
+ * to the 'pool' of filters available when defining
+ * {@link #setFilterChainDefinitions(String) filter chains}, it is
  * optional.
  * <p/>
  * This implementation is also a {@link BeanPostProcessor} and will acquire
- * any {@link javax.servlet.Filter Filter} beans defined independently in your Spring application context.  Upon
- * discovery, they will be automatically added to the {@link #setFilters(java.util.Map) map} keyed by the bean ID.
+ * any {@link javax.servlet.Filter Filter} beans defined independently in your
+ * Spring application context. Upon
+ * discovery, they will be automatically added to the
+ * {@link #setFilters(java.util.Map) map} keyed by the bean ID.
  * That ID can then be used in the filter chain definitions, for example:
  *
  * <pre>
@@ -92,16 +101,23 @@ import java.util.Map;
  *    &lt;/property&gt;
  * &lt;/bean&gt;
  * </pre>
+ *
  * <h4>Global Property Values</h4>
  * Most Shiro servlet Filter implementations exist for defining custom Filter
- * {@link #setFilterChainDefinitions(String) chain definitions}.  Most implementations subclass one of the
- * {@link AccessControlFilter}, {@link AuthenticationFilter}, {@link AuthorizationFilter} classes to simplify things,
- * and each of these 3 classes has configurable properties that are application-specific.
+ * {@link #setFilterChainDefinitions(String) chain definitions}. Most
+ * implementations subclass one of the
+ * {@link AccessControlFilter}, {@link AuthenticationFilter},
+ * {@link AuthorizationFilter} classes to simplify things,
+ * and each of these 3 classes has configurable properties that are
+ * application-specific.
  * <p/>
- * A dilemma arises where, if you want to for example set the application's 'loginUrl' for any Filter, you don't want
- * to have to manually specify that value for <em>each</em> filter instance defined.
+ * A dilemma arises where, if you want to for example set the application's
+ * 'loginUrl' for any Filter, you don't want
+ * to have to manually specify that value for <em>each</em> filter instance
+ * defined.
  * <p/>
- * To prevent configuration duplication, this implementation provides the following properties to allow you
+ * To prevent configuration duplication, this implementation provides the
+ * following properties to allow you
  * to set relevant values in only one place:
  * <ul>
  * <li>{@link #setLoginUrl(String)}</li>
@@ -109,15 +125,18 @@ import java.util.Map;
  * <li>{@link #setUnauthorizedUrl(String)}</li>
  * </ul>
  * <p>
- * Then at startup, any values specified via these 3 properties will be applied to all configured
- * Filter instances so you don't have to specify them individually on each filter instance.  To ensure your own custom
- * filters benefit from this convenience, your filter implementation should subclass one of the 3 mentioned
+ * Then at startup, any values specified via these 3 properties will be applied
+ * to all configured
+ * Filter instances so you don't have to specify them individually on each
+ * filter instance. To ensure your own custom
+ * filters benefit from this convenience, your filter implementation should
+ * subclass one of the 3 mentioned
  * earlier.
  *
- * @see org.springframework.web.filter.DelegatingFilterProxy DelegatingFilterProxy
+ * @see org.springframework.web.filter.DelegatingFilterProxy
+ *      DelegatingFilterProxy
  * @since 1.0
  */
-@DependsOn("manager")
 public class ShiroFilterFactoryBean implements FactoryBean {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ShiroFilterFactoryBean.class);
@@ -604,7 +623,7 @@ public class ShiroFilterFactoryBean implements FactoryBean {
      *         by the Shiro Filter.
      */
     public Map<String, String> getFilterChainDefinitionMap() {
-        return this.getFilterChainDefinitionMap();
+        return this.manager.getFilterChainDefinitionMap();
     }
 
     /**

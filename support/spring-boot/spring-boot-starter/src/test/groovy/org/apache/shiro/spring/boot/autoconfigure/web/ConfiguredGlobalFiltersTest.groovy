@@ -82,11 +82,13 @@ class ConfiguredGlobalFiltersTest {
                 instanceOf(DefaultFilter.invalidRequest.filterClass),
                 instanceOf(DefaultFilter.port.filterClass))
 
+        // true?Why?
         InvalidRequestFilter invalidRequest = allChain.get(0)
         assertThat "Expected invalidRequest.blockBackslash to be false", !invalidRequest.isBlockBackslash()
         PortFilter portFilter = allChain.get(1)
         // an ugly line, but we want to make sure that we can override the filters
         // defined in Shiro's DefaultFilter
+        // 80?Why?
         assertThat portFilter.port, equalTo(9999)
 
         // configured routes also contain global filters

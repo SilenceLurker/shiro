@@ -22,7 +22,7 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.FatalBeanException;
 import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
 import org.springframework.core.PriorityOrdered;
-
+import org.springframework.stereotype.Component;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +43,7 @@ import org.apache.shiro.lang.util.Initializable;
  *
  * @since 0.2
  */
+@Component
 public class LifecycleBeanPostProcessor implements DestructionAwareBeanPostProcessor, PriorityOrdered {
 
     /**

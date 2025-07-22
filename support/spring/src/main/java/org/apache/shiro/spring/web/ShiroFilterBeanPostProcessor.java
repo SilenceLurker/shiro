@@ -31,16 +31,18 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.context.annotation.DependsOn;
+import org.springframework.stereotype.Component;
 
 /**
  * @author Silence_Lurker
  */
-@DependsOn("shiroFilterBeanManager")
+@Component
+@DependsOn("shiroFilterFactoryBean")
 public class ShiroFilterBeanPostProcessor implements BeanPostProcessor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ShiroFilterFactoryBean.class);
 
-    @Autowired
+    @Autowired()
     private ShiroFilterBeanManager manager;
 
     private void applyLoginUrlIfNecessary(Filter filter) {
@@ -92,6 +94,8 @@ public class ShiroFilterBeanPostProcessor implements BeanPostProcessor {
         applyLoginUrlIfNecessary(filter);
         applySuccessUrlIfNecessary(filter);
         applyUnauthorizedUrlIfNecessary(filter);
+
+        System.out.println("Filter:" + filter.toString() + "inited");
 
         if (filter instanceof OncePerRequestFilter) {
             ((OncePerRequestFilter) filter)

@@ -27,6 +27,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import javax.servlet.Filter;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -80,8 +81,25 @@ public class AbstractShiroWebFilterConfiguration {
 
         if (filterMap != null) {
             filterFactoryBean.setFilters(filterMap);
+        } else {
+            manager.setFilters(new HashMap<>());
         }
 
         return filterFactoryBean;
+    }
+
+    protected ShiroFilterBeanManager manager() {
+        ShiroFilterBeanManager manager = new ShiroFilterBeanManager();
+
+        manager.setLoginUrl(loginUrl);
+        manager.setSuccessUrl(successUrl);
+        manager.setUnauthorizedUrl(unauthorizedUrl);
+
+        manager.setSecurityManager(securityManager);
+        manager.setShiroFilterConfiguration(shiroFilterConfiguration());
+        manager.setGlobalFilters(globalFilters());
+        manager.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
+
+        return manager;
     }
 }

@@ -116,13 +116,21 @@
                 </entry>
             </util:map>
         </property>
-        <property name="filterChainDefinitions">
-            <value>
-                /s/signup = anon
-                /s/manageUsers = perms[user:manage]
-                /s/** = authc
-            </value>
+        <property name="filterChainDefinitionMap">
+            <!-- <value> /s/signup = anon /s/manageUsers = perms[user:manage] /s/** = authc </value> -->
+            <util:map>
+                <entry key="/s/signup" value="anon" />
+                <entry key="/s/manageUsers" value="perms[user:manage]" />
+                <entry key="/s/**" value="authc" />
+            </util:map>
         </property>
+    </bean>
+    <!-- <bean id="shiroFilterBeanPostProcessor"
+        class="org.apache.shiro.spring.web.ShiroFilterBeanPostProcessor">
+        <property name="manager" ref="shiroFilterBeanManager"></property>
+    </bean> -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="manager" ref="manager" />
     </bean>
 
 </beans>
