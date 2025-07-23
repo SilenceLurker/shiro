@@ -19,6 +19,7 @@
 package org.apache.shiro.spring.web.config;
 
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.spring.web.ShiroFilterBeanManager;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.config.ShiroFilterConfiguration;
 import org.apache.shiro.web.filter.mgt.DefaultFilter;
@@ -68,6 +69,18 @@ public class AbstractShiroWebFilterConfiguration {
     }
 
     protected ShiroFilterFactoryBean shiroFilterFactoryBean() {
+
+        ShiroFilterBeanManager manager = manager();
+
+        manager.setLoginUrl(loginUrl);
+        manager.setSuccessUrl(successUrl);
+        manager.setUnauthorizedUrl(unauthorizedUrl);
+
+        manager.setSecurityManager(securityManager);
+        manager.setShiroFilterConfiguration(shiroFilterConfiguration());
+        manager.setGlobalFilters(globalFilters());
+        manager.setFilterChainDefinitionMap(shiroFilterChainDefinition.getFilterChainMap());
+
         ShiroFilterFactoryBean filterFactoryBean = new ShiroFilterFactoryBean();
 
         filterFactoryBean.setLoginUrl(loginUrl);
