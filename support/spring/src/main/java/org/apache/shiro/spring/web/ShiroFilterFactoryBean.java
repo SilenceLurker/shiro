@@ -219,7 +219,7 @@ public class ShiroFilterFactoryBean implements FactoryBean {
 
     protected FilterChainManager createFilterChainManager() {
 
-        DefaultFilterChainManager manager = new DefaultFilterChainManager();
+        DefaultFilterChainManager chainManager = new DefaultFilterChainManager();
         Map<String, Filter> defaultFilters = manager.getFilters();
         //apply global settings if necessary:
         for (Filter filter : defaultFilters.values()) {
@@ -238,7 +238,7 @@ public class ShiroFilterFactoryBean implements FactoryBean {
                 }
                 //'init' argument is false, since Spring-configured filters should be initialized
                 //in Spring (i.e. 'init-method=blah') or implement InitializingBean:
-                manager.addFilter(name, filter, false);
+                chainManager.addFilter(name, filter, false);
             }
         }
 
@@ -251,15 +251,15 @@ public class ShiroFilterFactoryBean implements FactoryBean {
             for (Map.Entry<String, String> entry : chains.entrySet()) {
                 String url = entry.getKey();
                 String chainDefinition = entry.getValue();
-                manager.createChain(url, chainDefinition);
+                chainManager.createChain(url, chainDefinition);
             }
         }
 
         // create the default chain, to match anything the path matching would have missed
         // TODO this assumes ANT path matching, which might be OK here
-        manager.createDefaultChain("/**");
+        chainManager.createDefaultChain("/**");
 
-        return manager;
+        return chainManager;
     }
 
     /**
